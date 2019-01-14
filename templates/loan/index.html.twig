@@ -1,0 +1,31 @@
+{# templates/loan/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Funded Loans{% endblock %}
+
+{% block body %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Activity</th>
+            <th scope="col">Sector</th>
+            <th scope="col">Use</th>
+            <th scope="col">Funded Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for loan in funded_loans %}
+            <tr>
+                <th scope="row">{{ loan.id }}</th>
+                <td>{{ loan.name }}</td>
+                <td>{{ loan.activity }}</td>
+                <td>{{ loan.sector }}</td>
+                <td>{{ loan.use }}</td>
+                <td>{{ loan.loanAmount }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
