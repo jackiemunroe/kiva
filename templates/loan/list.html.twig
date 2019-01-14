@@ -4,15 +4,15 @@
 {% block title %}Funded Loans{% endblock %}
 
 {% block body %}
+    <h1>Funded Loans</h1>
     <table class="table table-striped">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Activity</th>
-            <th scope="col">Sector</th>
-            <th scope="col">Use</th>
-            <th scope="col">Funded Amount</th>
+            <th scope="col">Loan Amount</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -21,9 +21,8 @@
                 <th scope="row">{{ loan.id }}</th>
                 <td>{{ loan.name }}</td>
                 <td>{{ loan.activity }}</td>
-                <td>{{ loan.sector }}</td>
-                <td>{{ loan.use }}</td>
                 <td>{{ loan.loanAmount }}</td>
+                <td><a href="{{ path('loan', {'id': loan.id}) }}">View Details</a></td>
             </tr>
         {% endfor %}
     </tbody>

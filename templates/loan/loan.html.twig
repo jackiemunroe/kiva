@@ -1,0 +1,30 @@
+{# templates/loan/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Loan #{{ loan.id }}{% endblock %}
+
+{% block body %}
+    <h1>Loan #{{ loan.id }}</h1>
+    <table class="table table-striped">
+        <tr>
+            <th scope="row">Name</th>
+            <td>{{ loan.name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Activity</th>
+            <td>{{ loan.activity }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Sector</th>
+            <td>{{ loan.sector }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Use</th>
+            <td>{{ loan.use }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Loan Amount</th>
+            <td>{{ loan.loanAmount }}</td>
+        </tr>
+    </table>
+{% endblock %}

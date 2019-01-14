@@ -1,3 +1,7 @@
-index:
+loan_list:
     path: /
-    controller: App\Controller\LoanController::getAll
+    controller: App\Controller\LoanController::findAll
+
+loan:
+    path: /loan/{id}
+    controller: App\Controller\LoanController::find

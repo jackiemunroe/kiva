@@ -31,6 +31,17 @@ class LoanRepository
         return $loans;
     }
 
+    public function find($id)
+    {
+        $response = $this->client->get("loans/$id.json");
+        
+        $body = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+
+        $loan = $this->hydrate($body['loans'][0]);
+        
+        return $loan;
+    }
+
     protected function hydrate($data)
     {
         $loan = new Loan();
