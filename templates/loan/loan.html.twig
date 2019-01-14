@@ -32,11 +32,25 @@
         </tr>
     </table>
     {% if lenders is not empty %}
-        <h2>Lenders for loan</h2>
-        <ul>
-            {% for lender in lenders %}
-                <li>{{ lender.name }}</li>
-            {% endfor %}
-        </ul>
+        <h2>Lenders</h2>
+
+        <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Lender Id</th>
+            <th scope="col">Lender Name</th>
+            <th scope="col">Total Owed</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for lender in lenders %}
+            <tr>
+                <th scope="row">{{ lender.lenderId }}</th>
+                <td>{{ lender.name }}</td>
+                <td>{{ amount_owed_per_lender }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
     {% endif %}
 {% endblock %}

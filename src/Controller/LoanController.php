@@ -20,13 +20,23 @@ class LoanController extends AbstractController
     public function getAction($id)
     {
         $loanRepository = new LoanRepository();
-        $loans = $loanRepository->find($id);
-
+        /** @var Loan $loan */
+        $loan = $loanRepository->find($id);
+        /** @var Lender $lenders */
         $lenders = $loanRepository->getLenders($id);
         
+        $totalAmountOwed = $loan->getLoanAmount();
+        $numberOfLenders = $loan->getLenderCount();
+        
+        $amountOwedPerLender = 0;
+        if ($totalAmountOwed > 0 && $numberOfLenders > 0) {
+            $amountOwedPerLender = $totalAmountOwed/$numberOfLenders;
+        }
+        
         return $this->render('loan/loan.html.twig', [
-            'loan' => $loans,
-            'lenders' => $lenders
+            'loan' => $loan,
+            'lenders' => $lenders,
+            'amount_owed_per_lender' => $amountOwedPerLender
         ]);
     }
 }
