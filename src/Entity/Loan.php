@@ -22,8 +22,11 @@ class Loan {
     /** @var  string */
     private $use;
 
-    /** @var  float */
+    /** @var  integer */
     private $loanAmount;
+    
+    /** @var  integer */
+    private $lenderCount;
 
     /**
      * @return int
@@ -119,5 +122,21 @@ class Loan {
     public function setLoanAmount($loanAmount)
     {
         $this->loanAmount = $loanAmount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLenderCount()
+    {
+        return $this->lenderCount;
+    }
+
+    /**
+     * @param int $lenderCount
+     */
+    public function setLenderCount($lenderCount)
+    {
+        $this->lenderCount = $lenderCount;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Repository;
 
+use App\Entity\Lender;
 use App\Entity\Loan;
 use GuzzleHttp\Client;
 
@@ -18,14 +19,13 @@ class LoanRepository
 
     public function findAll()
     {
-        $response = $this->client->get('loans/search.json', ['status' => 'funded']);
+        $response = $this->client->get('loans/search.json', ['query' => 'status=funded']);
 
         $body = json_decode($response->getBody()->getContents(), true);
 
         $loans = [];
-
         foreach ($body['loans'] as $loan) {
-            $loans[] = $this->hydrate($loan);
+            $loans[] = $this->hydrateLoan($loan);
         }
 
         return $loans;
@@ -36,22 +36,56 @@ class LoanRepository
         $response = $this->client->get("loans/$id.json");
         
         $body = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
-
-        $loan = $this->hydrate($body['loans'][0]);
+        $loan = $this->hydrateLoan($body['loans'][0]);
         
         return $loan;
     }
 
-    protected function hydrate($data)
+    public function getLenders($loanId)
+    {
+        $response = $this->client->get("loans/$loanId/lenders.json");
+
+        $body = json_decode($response->getBody()->getContents(), true);
+
+        $lenders = [];
+        foreach ($body['lenders'] as $lender) {
+            $lenders[] = $this->hydrateLender($lender);
+        }
+
+        return $lenders;
+    }
+
+    protected function hydrateLoan($data)
     {
         $loan = new Loan();
-        $loan->setId($data['id']);
-        $loan->setName($data['name']);
-        $loan->setActivity($data['activity']);
-        $loan->setSector($data['sector']);
-        $loan->setUse($data['use']);
-        $loan->setLoanAmount($data['loan_amount']);
+        $loan->setId($this->getArrayValue('id', $data));
+        $loan->setName($this->getArrayValue('name', $data));
+        $loan->setActivity($this->getArrayValue('activity', $data));
+        $loan->setSector($this->getArrayValue('sector', $data));
+        $loan->setUse($this->getArrayValue('use', $data));
+        $loan->setLoanAmount($this->getArrayValue('loan_amount', $data));
+        $loan->setLenderCount($this->getArrayValue('lender_count', $data));
 
         return $loan;
+    }
+
+    protected function hydrateLender($data)
+    {
+        $lender = new Lender();
+        $lender->setLenderId($this->getArrayValue('lender_id', $data));
+        $lender->setName($this->getArrayValue('name', $data));
+        $lender->setWhereabouts($this->getArrayValue('whereabouts', $data));
+        $lender->setCountryCode($this->getArrayValue('country_code', $data));
+        $lender->setUid($this->getArrayValue('uid', $data));
+
+        return $lender;
+    }
+
+    protected function getArrayValue($key, $array, $default = null)
+    {
+        if (array_key_exists($key, $array)) {
+            return $array[$key];
+        }
+        return $default;
     }
 }

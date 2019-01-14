@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class LoanController extends AbstractController
 {
-    public function findAll()
+    public function listAction()
     {
         $loanRepository = new LoanRepository();
         $loans = $loanRepository->findAll();
@@ -17,13 +17,16 @@ class LoanController extends AbstractController
         ]);
     }
 
-    public function find($id)
+    public function getAction($id)
     {
         $loanRepository = new LoanRepository();
         $loans = $loanRepository->find($id);
 
+        $lenders = $loanRepository->getLenders($id);
+        
         return $this->render('loan/loan.html.twig', [
-            'loan' => $loans
+            'loan' => $loans,
+            'lenders' => $lenders
         ]);
     }
 }

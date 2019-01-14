@@ -1,7 +1,7 @@
 loan_list:
     path: /
-    controller: App\Controller\LoanController::findAll
+    controller: App\Controller\LoanController::listAction
 
 loan:
     path: /loan/{id}
-    controller: App\Controller\LoanController::find
+    controller: App\Controller\LoanController::getAction

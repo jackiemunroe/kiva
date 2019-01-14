@@ -23,8 +23,20 @@
             <td>{{ loan.use }}</td>
         </tr>
         <tr>
+            <th scope="row">Lender Count</th>
+            <td>{{ loan.lenderCount }}</td>
+        </tr>
+        <tr>
             <th scope="row">Loan Amount</th>
             <td>{{ loan.loanAmount }}</td>
         </tr>
     </table>
+    {% if lenders is not empty %}
+        <h2>Lenders for loan</h2>
+        <ul>
+            {% for lender in lenders %}
+                <li>{{ lender.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
