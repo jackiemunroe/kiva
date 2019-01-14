@@ -1,17 +1,9 @@
 <?php
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Circle\DoctrineRestDriver\Annotations as DataSource;
-
 /**
  * Class Loan
  * @package App\Entity
- *
- * @ORM\Entity
- * @ORM\Table("loans")
- * @DataSource\Select("http://api.kivaws.org/v1/loans/{id}.json")
- * @DataSource\Fetch("https://api.kivaws.org/v1/loans/search.json?status=funded")
  */
 class Loan {
 
