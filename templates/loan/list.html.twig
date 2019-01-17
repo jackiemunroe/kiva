@@ -27,4 +27,7 @@
         {% endfor %}
     </tbody>
     </table>
+    {% if page_count > 1 %}
+        {{ include("_pagination.html.twig") }}
+    {% endif %}
 {% endblock %}

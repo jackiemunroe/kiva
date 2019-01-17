@@ -1,0 +1,22 @@
+{% set prev_class = '' %}
+{% set next_class = '' %}
+
+{% set prev_link = ['/?page=', current_page - 1]|join %}
+{% set next_link = ['/?page=', current_page + 1]|join %}
+
+{% if current_page == 1 %}
+    {% set prev_class = 'disabled' %}
+    {% set prev_link = '#' %}
+{% elseif current_page == page_count %}
+    {% set next_class = 'disabled' %}
+    {% set next_link = '#' %}
+{% endif %}
+<div>
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item {{ prev_class }}"><a href="{{ prev_link }}">Previous</a></li>
+            <li class="page-item disabled"><a href="#">{{ current_page }}</a></li>
+            <li class="page-item {{ next_class }}"><a href="{{ next_link }}">Next</a></li>
+        </ul>
+    </nav>
+</div>

@@ -4,16 +4,22 @@ namespace App\Controller;
 
 use App\Repository\LoanRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class LoanController extends AbstractController
 {
-    public function listAction()
+    public function listAction(Request $request)
     {
         $loanRepository = new LoanRepository();
-        $loans = $loanRepository->findAll();
+
+        $page = $request->query->get('page', 1);
+
+        $loanData = $loanRepository->findAll($page);
         
         return $this->render('loan/list.html.twig', [
-            'funded_loans' => $loans
+            'funded_loans' => $loanData['loans'],
+            'current_page' => $loanData['currentPage'],
+            'page_count' => $loanData['pageCount']
         ]);
     }
 

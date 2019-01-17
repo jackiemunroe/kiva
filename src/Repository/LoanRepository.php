@@ -17,18 +17,25 @@ class LoanRepository
         ]);
     }
 
-    public function findAll()
+    public function findAll($page = 1)
     {
-        $response = $this->client->get('loans/search.json', ['query' => 'status=funded']);
-
+        $response = $this->client->get(
+            'loans/search.json',
+            ['query' => "status=funded&page=$page"]
+        );
         $body = json_decode($response->getBody()->getContents(), true);
-
+        
         $loans = [];
         foreach ($body['loans'] as $loan) {
             $loans[] = $this->hydrateLoan($loan);
         }
-
-        return $loans;
+        $paging = $body['paging'];
+        
+        return [
+            'currentPage' => $paging['page'],
+            'pageCount' => $paging['pages'],
+            'loans' => $loans
+        ];
     }
 
     public function find($id)
