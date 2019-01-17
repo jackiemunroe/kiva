@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\LoanLender;
 use App\Repository\LoanRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,6 +38,17 @@ class LoanController extends AbstractController
         $amountOwedPerLender = 0;
         if ($totalAmountOwed > 0 && $numberOfLenders > 0) {
             $amountOwedPerLender = $totalAmountOwed/$numberOfLenders;
+
+            $em = $this->getDoctrine()->getManager();
+            foreach ($lenders as $lender) {
+                $lla = new LoanLender(
+                    $loan->getId(),
+                    $lender->getName(),
+                    $amountOwedPerLender
+                );
+                $em->persist($lla);
+            }
+            $em->flush();
         }
         
         return $this->render('loan/loan.html.twig', [
